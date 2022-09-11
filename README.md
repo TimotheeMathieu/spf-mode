@@ -2,12 +2,15 @@
 emacs minor mode to write structured proofs using org-mode.
 
 According to its inventor, structured proof are "A method of writing proofs is described that makes it harder to prove things
-that are not true. The method, based on hierarchical structuring, is simple and practical." They were first described by Leslie Lamport in his article [How to Write a Proof](https://lamport.azurewebsites.net/pubs/lamport-how-to-write.pdf). This article has a sequel [How to Write a 21st Century Proof](https://lamport.azurewebsites.net/pubs/proof.pdf) with more ideas on the same theme.
+that are not true. The method, based on hierarchical structuring, is simple and practical." 
+The method was first described by Leslie Lamport in his article [How to Write a Proof](https://lamport.azurewebsites.net/pubs/lamport-how-to-write.pdf). This article has a sequel [How to Write a 21st Century Proof](https://lamport.azurewebsites.net/pubs/proof.pdf) with more ideas on the same theme.
 
-This repository propose one way to code structured proofs using org-mode. I do not exactly follow Lamport's way of doing structured proof and this repository is hacky at best. Use at your own discretion.
+This repository proposes one way to construct structured proofs using org-mode. 
+I do not exactly follow Lamport's way of doing structured proof and this repository is hacky at best. Use at your own discretion.
 
 An example of structured proof constructed with this mode can be found in the "examples" directory.
 
+![](examples/spf-mode.gif)
 ## Installation
 
 To install, copy `spf-mode.el` and `white_clean.theme` in your dotemacs directory. Load the file `spf-mode.el` and import it with 
