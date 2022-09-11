@@ -1,0 +1,924 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-09-11 dim. 18:39 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Concentration of the Empirical Median around the mean</title>
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+</style>
+<style type="text/css">
+/******************************************************
+* I copied these styles from markdotto.com, who is
+* the creator of bootstrap, and I also did some
+* modification. Thanks Mark for the beautiful theme,
+* so I reserved the @mdo sign below.
+*****************************************************/
+
+/*
+__
+__                  /\ \
+/'_`\_    ___ ___    \_\ \    ___
+/'/'_` \ /' __` __`\  /'_` \  / __`\
+/\ \ \L\ \/\ \/\ \/\ \/\ \L\ \/\ \L\ \
+\ \ `\__,_\ \_\ \_\ \_\ \___,_\ \____/
+\ `\_____\\/_/\/_/\/_/\/__,_ /\/___/
+`\/_____/
+
+*/
+
+
+
+/* Body resets
+-------------------------------------------------- */
+
+* {
+-webkit-box-sizing:  border-box;
+-moz-box-sizing:  border-box;
+box-sizing:  border-box;
+}
+html, body {
+margin:  0;
+padding:  0;
+}
+html {
+font-size:  62.5%;
+}
+body {
+padding:  20px;
+font-family:  Menlo, Monaco, monospace;
+font-size:  14px;
+color:  #111;
+background-color:  #fff;
+}
+p {
+margin:  0 1em 20px; display: inline;
+}
+p::before {content: ' '; display: block; }
+h1, h2, h3, h4, h5, h6 {
+position:  relative;
+margin:  5px 0 5px;
+font-size:  16px;
+font-weight:  normal;
+line-height:  1.1;
+color:  #111;
+text-rendering:  optimizeLegibility;
+display: inline-block;
+}
+.outline-1, .outline-2, .outline-3, .outline-4, .outline-5, .outline-6 { margin-left: 3em;}
+h1 {
+font-weight: bold;
+font-size: 18px;
+line-height: 1.5;
+}
+h1:before, h2:before, h3:before, h4:before, h5:before, h6:before {
+position:  absolute;
+top:  auto;
+color:  #111;
+display:  none;
+}
+h1:before {
+content:  "";
+left:  -1em;
+}
+h2:before, h3:before, h4:before, h5:before, h6:before {
+content:  "*";
+color: #528fd1;
+left:  -1em;
+font-weight: bold;
+}
+i, em, b, strong {
+padding-left:  .1em;
+padding-right:  .1em;
+}
+b, strong {
+font-weight:  bold;
+color:  #333;
+}
+b:before, b: after, strong:before, strong: after {
+content:  "*";
+}
+i:before, i: after, em:before, em: after {
+content:  "/";
+}
+hr {
+margin:  0;
+border:  0;
+}
+hr: after {
+display:  block;
+margin:  20px 0;
+content:  "----------------------------------------------------------------";
+color:  #ccc;
+}
+ul, ol {
+padding:  1em;
+margin:  0px 0 20px;
+}
+code, pre {
+font-family:  Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+code {
+color:   #528fd1;
+}
+code:before, code: after {
+content:  "=";
+color:  #ccc;
+}
+pre {
+display:  block;
+margin:  0 0 14px;
+padding:  15px;
+border-radius:  3px 3px 3px 3px;
+font-size:  17px;
+line-height:  28px;
+background-color:  #f5f5f5;
+white-space:  pre;
+white-space:  pre-wrap;
+word-break:  break-all;
+word-wrap:  break-word;
+}
+blockquote {
+padding:  0 0 0 20px;
+margin:  0 30px 20px -22.5px;
+color:  #999;
+border-left:  8px solid #e5e5e5;
+}
+blockquote p: last-child {
+margin-bottom:  0;
+}
+img {
+display:  block;
+margin:  0;
+border-radius:  5px;
+}
+a {
+font-weight:  inherit;
+line-height:  inherit;
+color:  #000;
+text-decoration:  none;
+}
+sup a:before {
+content:  "[";
+}
+sup a: after {
+content:  "]";
+}
+a: hover {
+text-decoration:  underline;
+}
+table {
+line-height:  2.5;
+margin-bottom:  15px;
+max-width:  100%;
+width:  100%;
+}
+table td, table th {
+padding:  0 15px;
+}
+table th.left, table td.left {
+text-align:  left;
+}
+table th.right, table td.right {
+text-align:  right;
+}
+/******************************************************/
+/* body */
+body {
+margin:  0 auto;
+max-width:  60em;
+}
+/* head */
+.masthead {
+color:  #888;
+}
+.masthead: after {
+display:  block;
+content:  '----------------------------------------------------------------';
+margin:  10px 0;
+color:  #ccc;
+}
+.masthead a {
+color:  #333;
+}
+.masthead ul {
+list-style:  none;
+}
+.masthead li {
+display:  inline-block;
+}
+.masthead li + li:before {
+display:  inline-block;
+content:  "\00B7 \00a0";
+color:  #ccc;
+}
+/* searchform*/
+#searchform {
+position:  absolute;
+top:  54px;
+right:  30.4%;
+}
+#searchform #s {
+background:  url("/media/img/search.png") no-repeat 5px 6px;
+box-shadow:  inset 0 1px 1px rgba(0,0,0,0.1);
+border:  1px solid #ddd;
+border-radius:  2px;
+-moz-border-radius:  2px;
+width:  90px;
+height:  30px;
+line-height:  12px;
+padding:  4px 10px 4px 28px;
+
+-webkit-transition-duration:  400ms;
+-webkit-transition-property:  width, background;
+-webkit-transition-timing-function:  ease;
+-moz-transition-duration:  400ms;
+-moz-transition-property:  width, background;
+-moz-transition-timing-function:  ease;
+-o-transition-duration:  400ms;
+-o-transition-property:  width, background;
+-o-transition-timing-function:  ease;
+}
+#searchform #s: focus {
+background-color:  #f9f9f9;
+width:  160px;
+}
+.masthead img.avatar {
+position:  relative;
+float:  right;
+margin-top:  -100px;
+margin-bottom:  -100%;
+margin-right:  10%;
+width:  200px;
+background-color:  #fff;
+}
+/* post */
+.post {
+position:  relative;
+}
+.post: after {
+display:  block;
+content:  "----------------------------------------------------------------";
+color:  #ccc;
+}
+.post img {
+max-width:  100%;
+}
+.post li {
+list-style:  none outside none;
+}
+.post ul > li:before {
+content:  "- ";
+margin-left:  -1.25em;
+color:  #ccc;
+}
+.post ol {
+counter-reset:  o-list;
+}
+.post ol > li:before {
+content:  counter(o-list) ") ";
+counter-increment:  o-list;
+margin-left:  -1.85em;
+color:  #ccc;
+}
+
+/* special for li in pre */
+.post pre li {
+list-style-type:  decimal;
+}
+
+.post pre li:before {
+display:  none;
+}
+
+/* meta info */
+.post-info {
+display:  inline-block;
+margin:  -10px 0 -10px;
+color:  #999;
+}
+.post-info + .post-info:before {
+content:  "\2223 \00a0";
+}
+.post-meta: after {
+content:  "----------------------------------------------------------------";
+display:  block;
+margin-top:  -1px;
+color:  #ccc;
+}
+.exp { position: fixed; left: 0em; top:0em;padding: 5px;; color: #777;
+border: 1px solid #e1e1e8;
+-webkit-box-shadow:  0 0 1em #777777;
+-moz-box-shadow:  0 0 1em #777777;
+-webkit-border-bottom-left-radius:  5px;
+-moz-border-radius-bottomleft:  5px;
+text-align:  center;
+z-index:  200;
+background-color: #eee;
+padding-top: 0.5em;
+padding-bottom: 0.5em;
+}
+.exp2 { position: fixed; left: 0em; top:0em; padding: 5px;; color: #777;
+border: 1px solid #e1e1e8;
+-webkit-box-shadow:  0 0 1em #777777;
+-moz-box-shadow:  0 0 1em #777777;
+-webkit-border-bottom-left-radius:  5px;
+-moz-border-radius-bottomleft:  5px;
+text-align:  center;
+z-index:  200;
+background-color: #eee;
+padding-top: 0.5em;
+padding-bottom: 0.5em;
+}
+/* table of content */
+#table-of-contents {
+position:  fixed;
+right:  0em;
+top:  4em;
+border: 1px solid #e1e1e8;
+-webkit-box-shadow:  0 0 1em #777777;
+-moz-box-shadow:  0 0 1em #777777;
+-webkit-border-bottom-left-radius:  5px;
+-moz-border-radius-bottomleft:  5px;
+text-align:  center;
+/* ensure doesn't flow off the screen when expanded */
+max-height:  80%;
+overflow:  auto;
+z-index:  200;
+background-color: #eee;
+width: 20em;
+}
+
+#table-of-contents h2 {
+width:  20em;
+font-weight:  normal;
+padding-left:  0.5em;
+padding-top:  0.05em;
+padding-bottom:  0.05em;
+}
+
+#table-of-contents ul {
+margin-left:  14pt;
+margin-bottom:  10pt;
+padding:  0
+}
+
+#table-of-contents li {
+padding:  0;
+margin:  1px;
+list-style:  none;
+}
+
+#table-of-contents ul>: first-child {
+color:  blue;
+}
+
+#table-of-contents #text-table-of-contents {
+display:  block;
+text-align:  left;
+}
+
+#table-of-contents: hover #text-table-of-contents {
+display:  block;
+padding:  0.5em;
+margin-top:  -1.5em;
+}
+
+/* footer */
+.footer {
+margin:  80px 0 0;
+text-align:  center;
+font-size:  15px;
+color:  #999;
+}
+.footer > p {
+margin:  0;
+line-height:  1.5;
+}
+.footpara {
+display:  inline;
+}
+
+/* Responsive
+-------------------------------------------------- */
+
+@media (min-width:  768px) {
+/* Increase body padding and font-sizes */
+body {
+padding:  30px;
+font-size:  16px;
+}
+h1:before, h2:before, h3:before, h4:before, h5:before, h6:before {
+display:  inline;
+}
+}
+
+@media (min-width:  1024px) {
+body {
+padding:  30px;
+margin-left: 75pt;
+}
+}
+details > *:not(summary){
+margin-left: 1em;
+}
+summary {
+display: inline list-item;
+list-style: disclosure-closed inside;
+color: #528fd1;
+margin-left: 0.5em;
+}
+details {
+display: inline;
+}
+details[open] > summary {
+list-style: disclosure-open inside;
+margin-left: 2em;
+display: list-item;
+}
+div[id^='text-'] { display:inline}
+details[open] {display: block; }
+</style>
+<a href='#/' id='expAll' class='exp'>Expand All</a>
+
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',function() {
+var elementExists = document.getElementById("table-of-contents");
+if (elementExists){ elementExists.insertAdjacentHTML( 'beforeend',"<a href='#/' id='expAll' class='exp'>Expand All</a>")}})
+// Reference the toggle link
+var xa = document.getElementById('expAll');
+
+// Register link on click event
+xa.addEventListener('click', function(e) {
+
+/* Toggle the two classes that represent "state"
+|| determined when link is clicked
+*/
+e.target.classList.toggle('exp');
+e.target.classList.toggle('exp2');
+
+// Collect all <details> into a NodeList
+var details = document.querySelectorAll('details');
+
+/* Convert NodeList into an array then iterate
+|| throught it...
+*/
+Array.from(details).forEach(function(obj, idx) {
+
+/* If the link has the class .exp...
+|| make each <detail>'s open attribute true
+*/
+if (e.target.classList.contains('exp')) {
+obj.open = true;
+// Otherwise make it false
+} else {
+obj.open = false;
+}
+
+});
+}, false);
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',function() {
+document.getElementById("table-of-contents").onclick = function() {
+var elem = document.getElementById("text-table-of-contents");
+elem.style.display = elem.style.display == "Block" ? "none" : "block";
+}
+});
+
+var url = document.location.href;
+var orgsource = url.substring(0, url.lastIndexOf("."))+".org.html";
+function show_org_source(){
+document.location.href = orgsource;
+}
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+extensions: ["tex2jax.js"],
+jax: ["input/TeX", "output/HTML-CSS"],
+tex2jax: {
+inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+processEscapes: true
+},
+"HTML-CSS": { fonts: ["TeX"] }
+});
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Concentration of the Empirical Median around the mean</h1>
+<div class="HTML" id="org38f99d5">
+<p>
+\(
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\1}{\textbf{1}}
+\newcommand{\Med}{\mathrm{Med}}
+\newcommand{\N}{\mathbb{N}}
+\)
+</p>
+
+</div>
+<p>
+<b>Theorem</b>
+</p>
+
+<p>
+Let \(X\) be a real random variable with law \(P\) and finite variance \(\sigma^2>0\).<br />
+Let \(n \in \N\) with \(n\ge 6\), let \(X_1,\dots,X_n\) be an i.i.d sample from \(P\).<br />
+Denote \(\Med(X_1^n)\) an empirical median of \(X_1,\dots,X_n\) and \(\Med(P)\) a theoretical median of \(P\).<br />
+Then, for any \(\lambda >0\), we  have for any $ 0 &lt; t &le; \frac{8}{81n}$,
+\[\P\left(|\Med(X_1^n)-\E[X]| \le \sigma + 18\sigma\sqrt{\frac{t}{2n}} \right) \ge 1- 2\exp\left(-\frac{t}{\left(1+18\sqrt{\frac{t}{2n}}+81\frac{t}{n}\right)^2 }\right) \]
+</p>
+
+<p>
+<code>Remark</code>: The error term \(\sigma\) correspond to a (tight in general) bound on \(|\E[X]-\Med(P)|\). If additionally to the assumptions of the theorem, we suppose that \(P\) is symmetric so that \(\E[X]=\Med(P)\), then one can show that for any $ 0 &lt; t &le; \frac{8}{81n}$,
+\[\P\left(|\Med(X_1^n)-\E[X]| \le 18\sigma\sqrt{\frac{t}{2n}} \right) \ge 1- 2\exp\left(-\frac{t}{\left(1+18\sqrt{\frac{t}{2n}}+81\frac{t}{n}\right)^2 }\right).\]
+</p>
+
+
+<p>
+<b>Notations</b>
+</p>
+
+<p>
+\(\R\) denotes the set of real numbers, \(\N\) the set of non-negative integers. For a random variable \(X\), \(\E[X]\) denotes its expectation and \(\P(X \in A)\) the probability that \(X\) belongs to a set \(A\).
+</p>
+
+
+<p>
+<b>Proof of the theorem</b>
+</p>
+<div id="outline-container-org2f7c160" class="outline-2">
+<h2 id="org2f7c160"><span class="section-number-2">1.</span> For any \(\lambda >0\), we  have</h2>
+<div class="outline-text-2" id="text-1"></div>\begin{equation}\label{eq:concentration_to_count}
+\P\left(\Med(X_1^n) \ge \E[X]+\sigma+ \lambda  \right) \le \P\left(\sum_{i=1}^n \1\{X_i \ge  \E[X]+\sigma+\lambda\} \ge \lfloor n/2 \rfloor \right).
+\end{equation}
+<details>
+<summary> </summary> 
+
+
+<div id="outline-container-orgc456281" class="outline-3">
+<h3 id="orgc456281"><span class="section-number-3">1.1.</span> For any \(a\in \R\), if \(\Med(X_1^n)\ge a\) then \(\sum_{i=1}^n \1\{X_i \ge a\}\ge \lfloor n/2\rfloor\)</h3>
+<div class="outline-text-3" id="text-1-1"></div><details>
+<summary> </summary> 
+
+
+<div id="outline-container-org904adab" class="outline-4">
+<h4 id="org904adab"><span class="section-number-4">1.1.1.</span> Proof of <a href="#orgc456281">1.1</a></h4>
+<div class="outline-text-4" id="text-1-1-1"></div><p>
+Let \(X_{(i)}\) denote the sorted sample: \(X_{(1)}\le X_{(2)}\le \dots\le X_{(n)}\), by definition, \(\Med(X_1^n) \le X_{(\lceil n/2\rceil)}\), hence the result.
+</p>
+<details>
+<summary> </summary> 
+
+
+<div id="outline-container-orgd6caf15" class="outline-5">
+<h5 id="orgd6caf15"><span class="section-number-5">1.1.1.1.</span> Among \(X_1,\dots,X_n\) there are at least \(\lfloor n/2\rfloor\) elements larger than \(a\).</h5>
+<div class="outline-text-5" id="text-1-1-1-1"></div><details>
+<summary> </summary> 
+
+
+<div id="outline-container-orgd1b70f3" class="outline-6">
+<h6 id="orgd1b70f3"><span class="section-number-6">1.1.1.1.1.</span> Proof of <a href="#orgd6caf15">1.1.1.1</a></h6>
+<div class="outline-text-6" id="text-1-1-1-1-1"></div><p>
+We took the definition that \(\Med(X_1^n)\) is any element in the interval \([X_{(\lfloor n/2\rfloor)}, X_{(\lceil n/2\rceil)}]\). Hence, for ay \(j \ge \lceil n/2\rceil\), we have
+\[X_{(j)}\ge X_{(\lceil n/2\rceil)}\ge \Med(X_1^n).\]
+Which implies that there are at least \(n - \lceil n/2\rceil = \lfloor n/2\rfloor\) elements among \(X_1,\dots,X_n\) that are larger than \(\Med(X_1^n)\).
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org2743134" class="outline-3">
+<h3 id="org2743134"><span class="section-number-3">1.2.</span> Conclude that Equation \eqref{eq:concentration_to_count} is true.</h3>
+<div class="outline-text-3" id="text-1-2"></div><details>
+<summary> </summary> 
+
+
+<div id="outline-container-org10802c2" class="outline-4">
+<h4 id="org10802c2"><span class="section-number-4">1.2.1.</span> Proof of <a href="#org2743134">1.2</a></h4>
+<div class="outline-text-4" id="text-1-2-1"></div><p>
+Apply Step <a href="#orgc456281">1.1</a> to \(a=\Med(P)+\lambda\).
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org52f7675" class="outline-2">
+<h2 id="org52f7675"><span class="section-number-2">2.</span> For any \(\lambda> 4\sigma/n\), we  have</h2>
+<div class="outline-text-2" id="text-2"></div>\begin{equation}\label{eq:hoeffding}
+\P\left(\Med(X_1^n) \ge \E[X]+\sigma + \lambda  \right) \le \exp\left(-2n\left(\frac{\lambda \sigma }{9(2\sigma^2+2\lambda\sigma+\lambda^2) }\right)^2\right).
+\end{equation}
+<details>
+<summary> </summary> 
+
+
+<div id="outline-container-org9b6e149" class="outline-3">
+<h3 id="org9b6e149"><span class="section-number-3">2.1.</span> Let \(p(\lambda)=\P(X_1 \ge \E[X]+\sigma+\lambda)\), from Hoeffding's inequality, for any \(\lambda>0\) such that \(p(\lambda) \le \frac{1}{n}\lfloor n/2\rfloor\), we have</h3>
+<div class="outline-text-3" id="text-2-1"></div><p>
+\[\P\left(\Med(X_1^n) \ge  \E[X]+\sigma+ \lambda  \right) \le \exp\left(-2n\left(\frac{1}{n}\lfloor n/2 \rfloor-p(\lambda)\right)^2\right).\]
+</p>
+<details>
+<summary> </summary> 
+
+
+<div id="outline-container-orgab8cae8" class="outline-4">
+<h4 id="orgab8cae8"><span class="section-number-4">2.1.1.</span> Proof of <a href="#org9b6e149">2.1</a></h4>
+<div class="outline-text-4" id="text-2-1-1"></div><p>
+From Step <a href="#org2f7c160">1</a>, it is sufficient to control \(Z=\sum_{i=1}^n \1\{X_i \ge \Med(P)+\lambda\}\). \(Z\) is a sum of i.i.d random variables bounded by \(1\) and with mean \(p(\lambda)\). Hoeffding's inequality can be applied to \(Z\) as long as \(p(\lambda) \le \frac{1}{n}\lfloor n/2 \rfloor\).
+</p>
+</div>
+</div>
+<div id="outline-container-org73d46f3" class="outline-3">
+<h3 id="org73d46f3"><span class="section-number-3">2.2.</span> For any \(\lambda > 0\), we have $p(&lambda;) &le; \frac{\sigma^2}{2\sigma^2+2\lambda \sigma+\lambda^2 }.$</h3>
+<div class="outline-text-3" id="text-2-2"></div><details>
+<summary> </summary> 
+
+
+<div id="outline-container-orgf6f0066" class="outline-4">
+<h4 id="orgf6f0066"><span class="section-number-4">2.2.1.</span> Proof of <a href="#org73d46f3">2.2</a></h4>
+<div class="outline-text-4" id="text-2-2-1"></div><p>
+From Cantelli's inequality, for any $&lambda; &gt;0 $ we have
+\[\P(X_1 \ge \E[X]+\sigma+\lambda) \le \frac{\sigma^2}{\sigma^2+(\lambda+\sigma)^2 }.\]
+</p>
+</div>
+</div>
+<div id="outline-container-org6f4cbdb" class="outline-3">
+<h3 id="org6f4cbdb"><span class="section-number-3">2.3.</span> If \(\lambda > 4\sigma/n\), then $ \frac{1}{n}&lfloor; n/2&rfloor;-p(&lambda;)&ge; \frac{\lambda \sigma }{9(2\sigma^2+2\lambda\sigma+\lambda^2) }&ge; 0.$</h3>
+<div class="outline-text-3" id="text-2-3"></div><details>
+<summary> </summary> 
+
+
+<div id="outline-container-orge78fdc9" class="outline-4">
+<h4 id="orge78fdc9"><span class="section-number-4">2.3.1.</span> Proof of <a href="#org6f4cbdb">2.3</a></h4>
+<div class="outline-text-4" id="text-2-3-1"></div><p>
+For any \(n \ge 6\) and \(\lambda > 0\), from Step <a href="#org73d46f3">2.2</a>,
+\[ \frac{1}{n}\lfloor n/2\rfloor-p(\lambda)\ge \frac{1}{2}-\frac{1}{n}-\frac{\sigma^2}{2\sigma^2+2\lambda\sigma+\lambda^2 }.\]
+This prove one part of the inequality. Then, using that \(n \ge 6\),
+</p>
+\begin{align*}
+ \frac{1}{2}-\frac{1}{n}-\frac{\sigma^2}{2\sigma^2-2\lambda\sigma+\lambda^2 }&=  \frac{n-2}{2n}-\frac{\sigma^2}{2\sigma^2+2\lambda\sigma+\lambda^2 }\\
+&= \frac{(n-2)(2\sigma^2+2\lambda\sigma+\lambda^2)-2n\sigma^2}{2n(2\sigma^2+2\lambda\sigma+\lambda^2) }\\
+&=\frac{-4\sigma^2+2(n-2)\lambda\sigma+(n-2)\lambda^2}{2n(2\sigma^2+2\lambda\sigma+\lambda^2) }
+\end{align*}
+<p>
+Then, using that \(n-2 \ge 2n/3\) because \(n \ge 6\),
+</p>
+\begin{align*}
+ \frac{1}{2}-\frac{1}{n}-\frac{\sigma^2}{2\sigma^2-2\lambda\sigma+\lambda^2 }&\ge  \frac{-4\sigma^2+4\frac{n}{3}\lambda\sigma+2\frac{n}{3}\lambda^2}{2n(2\sigma^2+2\lambda\sigma+\lambda^2) }
+\end{align*}
+<p>
+Now, suppose that \(\lambda \ge 4\sigma/n\), then \(n\lambda\sigma\ge 4\sigma^2\) and then,
+</p>
+\begin{align*}
+ \frac{1}{2}-\frac{1}{n}-\frac{\sigma^2}{2\sigma^2-2\lambda\sigma+\lambda^2 }&\ge  \frac{\frac{n}{3}\lambda \sigma + \frac{2n}{3}\lambda^2}{3n(2\sigma^2+2\lambda\sigma+\lambda^2) }\\
+&\ge \frac{\lambda \sigma }{9(2\sigma^2+2\lambda\sigma+\lambda^2) }
+\end{align*}
+</div>
+</div>
+<div id="outline-container-org1d5b604" class="outline-3">
+<h3 id="org1d5b604"><span class="section-number-3">2.4.</span> Proof of Step <a href="#org52f7675">2</a></h3>
+<div class="outline-text-3" id="text-2-4"></div><p>
+Inject the inequality from Step  <a href="#org6f4cbdb">2.3</a> in Step <a href="#org9b6e149">2.1</a> to get the result. 
+</p>
+</div>
+</div>
+<div id="outline-container-orgbebcd41" class="outline-2">
+<h2 id="orgbebcd41"><span class="section-number-2">3.</span> From the previous steps with \(\lambda = 18\sigma\sqrt{\frac{t}{2n}}\), using some elementary algebra we conclude that the theorem is true.</h2>
+<div class="outline-text-2" id="text-3"></div><details>
+<summary> </summary> 
+
+
+<div id="outline-container-org7bfc6ac" class="outline-3">
+<h3 id="org7bfc6ac"><span class="section-number-3">3.1.</span> Proof of <a href="#orgbebcd41">3</a></h3>
+<div class="outline-text-3" id="text-3-1"></div><p>
+Take \(\lambda = 18\sigma\sqrt{\frac{t}{2n}}\). First, we verify that \(\lambda > 4\sigma/n\). Indeed, having \(t \le 8/(81n)\), we have
+\[\lambda \ge 18\sigma\sqrt{\frac{4}{81n^2}}=4\sigma/n \]
+Hence, we can apply Step <a href="#org52f7675">2</a> and conclude that
+</p>
+\begin{align*}
+\P\left(\Med(X_1^n) \ge \E[X]+\sigma + 18\sigma\sqrt{\frac{t}{2n}} \right) &\le \exp\left(-t\frac{4\sigma^4}{(2\sigma^2+2\lambda\sigma+\lambda^2)^2 }\right)\\
+&\le \exp\left(-\frac{t}{\left(1+18\sqrt{\frac{t}{2n}}+81\frac{t}{n}\right)^2 }\right).
+\end{align*}
+<p>
+This proves one direction of the theorem. Replace \(X\) by \(-X\) and with the same reasoning
+</p>
+\begin{align*}
+\P\left(\Med(-X_1^n) \ge \E[-X]+\sigma + 18\sigma\sqrt{\frac{t}{2n}} \right) \le \exp\left(-\frac{t}{\left(1+18\sqrt{\frac{t}{2n}}+81\frac{t}{n}\right)^2 }\right).
+\end{align*}
+<p>
+Hence the result, by union bound.
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

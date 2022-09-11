@@ -1,0 +1,157 @@
+# -*- eval: (spf-mode); -*-
+
+#+TITLE: Concentration of the Empirical Median around the mean
+#+AUTHOR: TM
+
+#+STARTUP: overview indent inlineimages logdrawer
+#+LANGUAGE:  en
+#+OPTIONS:   num:10 \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t toc:nil
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   email:nil creator:nil timestamp:t H:6
+#+OPTIONS:   author:nil date:nil  
+#+TAGS: noexport(n) 
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+OPTIONS: body-only:t
+#+SETUPFILE: ~/.emacs.d/themes/white_clean.theme
+#+BEGIN_HTML
+\(
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\1}{\textbf{1}}
+\newcommand{\Med}{\mathrm{Med}}
+\newcommand{\N}{\mathbb{N}}
+\)
+#+END_HTML
+*Theorem*
+
+Let $X$ be a real random variable with law $P$ and finite variance $\sigma^2>0$.\\
+Let $n \in \N$ with $n\ge 6$, let $X_1,\dots,X_n$ be an i.i.d sample from $P$.\\
+Denote $\Med(X_1^n)$ an empirical median of $X_1,\dots,X_n$ and $\Med(P)$ a theoretical median of $P$.\\
+Then, for any $\lambda >0$, we  have for any $ 0 < t \le \frac{8}{81n}$,
+$$\P\left(|\Med(X_1^n)-\E[X]| \le \sigma + 18\sigma\sqrt{\frac{t}{2n}} \right) \ge 1- 2\exp\left(-\frac{t}{\left(1+18\sqrt{\frac{t}{2n}}+81\frac{t}{n}\right)^2 }\right) $$
+
+=Remark=: The error term $\sigma$ correspond to a (tight in general) bound on $|\E[X]-\Med(P)|$. If additionally to the assumptions of the theorem, we suppose that $P$ is symmetric so that $\E[X]=\Med(P)$, then one can show that for any $ 0 < t \le \frac{8}{81n}$,
+$$\P\left(|\Med(X_1^n)-\E[X]| \le 18\sigma\sqrt{\frac{t}{2n}} \right) \ge 1- 2\exp\left(-\frac{t}{\left(1+18\sqrt{\frac{t}{2n}}+81\frac{t}{n}\right)^2 }\right).$$
+
+
+*Notations*
+
+$\R$ denotes the set of real numbers, $\N$ the set of non-negative integers. For a random variable $X$, $\E[X]$ denotes its expectation and $\P(X \in A)$ the probability that $X$ belongs to a set $A$.
+
+
+*Proof of the theorem*
+* For any $\lambda >0$, we  have
+:PROPERTIES:
+:ID:       4338a7c9-7b85-426f-9030-edba90f0944a
+:END:
+\begin{equation}\label{eq:concentration_to_count}
+\P\left(\Med(X_1^n) \ge \E[X]+\sigma+ \lambda  \right) \le \P\left(\sum_{i=1}^n \1\{X_i \ge  \E[X]+\sigma+\lambda\} \ge \lfloor n/2 \rfloor \right).
+\end{equation}
+** For any $a\in \R$, if $\Med(X_1^n)\ge a$ then $\sum_{i=1}^n \1\{X_i \ge a\}\ge \lfloor n/2\rfloor$
+:PROPERTIES:
+:ID:       def9c838-cbe4-468e-a83f-e4b6b60bfae9
+:END:
+*** Proof of [[#def9c838-cbe4-468e-a83f-e4b6b60bfae9]]
+:PROPERTIES:
+:ID:       418aff82-42ad-4836-a89a-1ef5b3513a1d
+:END:
+Let $X_{(i)}$ denote the sorted sample: $X_{(1)}\le X_{(2)}\le \dots\le X_{(n)}$, by definition, $\Med(X_1^n) \le X_{(\lceil n/2\rceil)}$, hence the result.
+**** Among $X_1,\dots,X_n$ there are at least $\lfloor n/2\rfloor$ elements larger than $a$.
+:PROPERTIES:
+:ID:       cfda153f-a805-41d6-8054-11125f0d86a4
+:END:
+***** Proof of [[#cfda153f-a805-41d6-8054-11125f0d86a4]]
+:PROPERTIES:
+:ID:       c3cf6a4a-fa3b-4089-b5b4-4c24edb19d6b
+:END:
+We took the definition that $\Med(X_1^n)$ is any element in the interval $[X_{(\lfloor n/2\rfloor)}, X_{(\lceil n/2\rceil)}]$. Hence, for ay $j \ge \lceil n/2\rceil$, we have
+$$X_{(j)}\ge X_{(\lceil n/2\rceil)}\ge \Med(X_1^n).$$
+Which implies that there are at least $n - \lceil n/2\rceil = \lfloor n/2\rfloor$ elements among $X_1,\dots,X_n$ that are larger than $\Med(X_1^n)$.
+** Conclude that Equation \eqref{eq:concentration_to_count} is true.
+:PROPERTIES:
+:ID:       a62c3024-fe3d-457d-9cbd-0fc3219eb89b
+:END:
+*** Proof of [[#a62c3024-fe3d-457d-9cbd-0fc3219eb89b]]
+:PROPERTIES:
+:ID:       fb878dd1-2dd1-43d7-b4cb-ceab2c00a8d7
+:END:
+Apply Step [[#def9c838-cbe4-468e-a83f-e4b6b60bfae9]] to $a=\Med(P)+\lambda$.
+* For any $\lambda> 4\sigma/n$, we  have
+:PROPERTIES:
+:ID:       e377cc6f-45fe-40fd-a56a-dfa1d3d88879
+:END:
+\begin{equation}\label{eq:hoeffding}
+\P\left(\Med(X_1^n) \ge \E[X]+\sigma + \lambda  \right) \le \exp\left(-2n\left(\frac{\lambda \sigma }{9(2\sigma^2+2\lambda\sigma+\lambda^2) }\right)^2\right).
+\end{equation}
+** Let $p(\lambda)=\P(X_1 \ge \E[X]+\sigma+\lambda)$, from Hoeffding's inequality, for any $\lambda>0$ such that $p(\lambda) \le \frac{1}{n}\lfloor n/2\rfloor$, we have
+:PROPERTIES:
+:ID:       977b0ec5-2cf8-49cb-bb75-e2e87c1559ba
+:END:
+$$\P\left(\Med(X_1^n) \ge  \E[X]+\sigma+ \lambda  \right) \le \exp\left(-2n\left(\frac{1}{n}\lfloor n/2 \rfloor-p(\lambda)\right)^2\right).$$
+*** Proof of [[#977b0ec5-2cf8-49cb-bb75-e2e87c1559ba]]
+:PROPERTIES:
+:ID:       c710937f-8845-4f10-80f9-d6dc8f1a87cd
+:END:
+From Step [[#4338a7c9-7b85-426f-9030-edba90f0944a]], it is sufficient to control $Z=\sum_{i=1}^n \1\{X_i \ge \Med(P)+\lambda\}$. $Z$ is a sum of i.i.d random variables bounded by $1$ and with mean $p(\lambda)$. Hoeffding's inequality can be applied to $Z$ as long as $p(\lambda) \le \frac{1}{n}\lfloor n/2 \rfloor$.
+** For any $\lambda > 0$, we have $p(\lambda) \le \frac{\sigma^2}{2\sigma^2+2\lambda \sigma+\lambda^2 }.$
+:PROPERTIES:
+:ID:       fe32b48a-76dd-4830-94bd-e51f661c5460
+:END:
+*** Proof of [[#fe32b48a-76dd-4830-94bd-e51f661c5460]]
+:PROPERTIES:
+:ID:       780c5d04-7b9e-4f10-a41c-1d9736b572d6
+:END:
+From Cantelli's inequality, for any $\lambda >0 $ we have
+$$\P(X_1 \ge \E[X]+\sigma+\lambda) \le \frac{\sigma^2}{\sigma^2+(\lambda+\sigma)^2 }.$$
+** If $\lambda > 4\sigma/n$, then $ \frac{1}{n}\lfloor n/2\rfloor-p(\lambda)\ge \frac{\lambda \sigma }{9(2\sigma^2+2\lambda\sigma+\lambda^2) }\ge 0.$
+:PROPERTIES:
+:ID:       84d27e6a-7ea5-441f-bca1-402313b7523c
+:END:
+*** Proof of [[#84d27e6a-7ea5-441f-bca1-402313b7523c]]
+:PROPERTIES:
+:ID:       b123295b-455f-4fbd-8cc9-9ace2ea2ca9d
+:END:
+For any $n \ge 6$ and $\lambda > 0$, from Step [[#fe32b48a-76dd-4830-94bd-e51f661c5460]],
+$$ \frac{1}{n}\lfloor n/2\rfloor-p(\lambda)\ge \frac{1}{2}-\frac{1}{n}-\frac{\sigma^2}{2\sigma^2+2\lambda\sigma+\lambda^2 }.$$
+This prove one part of the inequality. Then, using that $n \ge 6$,
+\begin{align*}
+ \frac{1}{2}-\frac{1}{n}-\frac{\sigma^2}{2\sigma^2-2\lambda\sigma+\lambda^2 }&=  \frac{n-2}{2n}-\frac{\sigma^2}{2\sigma^2+2\lambda\sigma+\lambda^2 }\\
+&= \frac{(n-2)(2\sigma^2+2\lambda\sigma+\lambda^2)-2n\sigma^2}{2n(2\sigma^2+2\lambda\sigma+\lambda^2) }\\
+&=\frac{-4\sigma^2+2(n-2)\lambda\sigma+(n-2)\lambda^2}{2n(2\sigma^2+2\lambda\sigma+\lambda^2) }
+\end{align*}
+Then, using that $n-2 \ge 2n/3$ because $n \ge 6$,
+\begin{align*}
+ \frac{1}{2}-\frac{1}{n}-\frac{\sigma^2}{2\sigma^2-2\lambda\sigma+\lambda^2 }&\ge  \frac{-4\sigma^2+4\frac{n}{3}\lambda\sigma+2\frac{n}{3}\lambda^2}{2n(2\sigma^2+2\lambda\sigma+\lambda^2) }
+\end{align*}
+Now, suppose that $\lambda \ge 4\sigma/n$, then $n\lambda\sigma\ge 4\sigma^2$ and then,
+\begin{align*}
+ \frac{1}{2}-\frac{1}{n}-\frac{\sigma^2}{2\sigma^2-2\lambda\sigma+\lambda^2 }&\ge  \frac{\frac{n}{3}\lambda \sigma + \frac{2n}{3}\lambda^2}{3n(2\sigma^2+2\lambda\sigma+\lambda^2) }\\
+&\ge \frac{\lambda \sigma }{9(2\sigma^2+2\lambda\sigma+\lambda^2) }
+\end{align*}
+** Proof of Step [[#e377cc6f-45fe-40fd-a56a-dfa1d3d88879]]
+:PROPERTIES:
+:ID:       c5f6e1bf-9a34-4f1f-b39c-1d6fb4ab438a
+:END:
+Inject the inequality from Step  [[#84d27e6a-7ea5-441f-bca1-402313b7523c]] in Step [[#977b0ec5-2cf8-49cb-bb75-e2e87c1559ba]] to get the result. 
+* From the previous steps with $\lambda = 18\sigma\sqrt{\frac{t}{2n}}$, using some elementary algebra we conclude that the theorem is true.
+:PROPERTIES:
+:ID:       d8c49ef3-7731-4e19-a88b-5be873940e1f
+:END:
+** Proof of [[#d8c49ef3-7731-4e19-a88b-5be873940e1f]]
+:PROPERTIES:
+:ID:       550dc9de-ec6f-43cc-b24a-a4ccfe166cf6
+:END:
+Take $\lambda = 18\sigma\sqrt{\frac{t}{2n}}$. First, we verify that $\lambda > 4\sigma/n$. Indeed, having $t \le 8/(81n)$, we have
+$$\lambda \ge 18\sigma\sqrt{\frac{4}{81n^2}}=4\sigma/n $$
+Hence, we can apply Step [[#e377cc6f-45fe-40fd-a56a-dfa1d3d88879]] and conclude that
+\begin{align*}
+\P\left(\Med(X_1^n) \ge \E[X]+\sigma + 18\sigma\sqrt{\frac{t}{2n}} \right) &\le \exp\left(-t\frac{4\sigma^4}{(2\sigma^2+2\lambda\sigma+\lambda^2)^2 }\right)\\
+&\le \exp\left(-\frac{t}{\left(1+18\sqrt{\frac{t}{2n}}+81\frac{t}{n}\right)^2 }\right).
+\end{align*}
+This proves one direction of the theorem. Replace $X$ by $-X$ and with the same reasoning
+\begin{align*}
+\P\left(\Med(-X_1^n) \ge \E[-X]+\sigma + 18\sigma\sqrt{\frac{t}{2n}} \right) \le \exp\left(-\frac{t}{\left(1+18\sqrt{\frac{t}{2n}}+81\frac{t}{n}\right)^2 }\right).
+\end{align*}
+Hence the result, by union bound.
